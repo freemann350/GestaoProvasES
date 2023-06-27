@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.esoft;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Evento implements Serializable {
 
@@ -77,6 +78,18 @@ public class Evento implements Serializable {
         this.eliminado = eliminado;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Evento evento = (Evento) o;
+        return eliminado == evento.eliminado && Objects.equals(nome, evento.nome) && Objects.equals(dataInicio, evento.dataInicio) && Objects.equals(dataFim, evento.dataFim) && Objects.equals(hora, evento.hora) && Objects.equals(pais, evento.pais) && Objects.equals(local, evento.local);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, dataInicio, dataFim, hora, pais, local, eliminado);
+    }
 
     @Override
     public String toString() {

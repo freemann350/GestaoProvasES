@@ -1,10 +1,11 @@
+package Atletas;
+
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.Pais;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.LinkedList;
@@ -47,10 +48,6 @@ public class EditarAtleta extends JFrame{
         listAtletas.setSelectedIndex(0);
     }
 
-    public static void main(String[] args) {
-        new EditarAtleta().setVisible(true);
-    }
-
     private void guardarButtonActionPerformed(ActionEvent e) {
         int numAtleta = listAtletas.getSelectedIndex();
 
@@ -62,8 +59,6 @@ public class EditarAtleta extends JFrame{
             atleta.setPeso(Float.parseFloat(tfPeso.getText()));
             atleta.setDataNascimento(tfDataNascimento.getText());
             atleta.setContacto(tfContacto.getText());
-
-            System.out.println(atleta);
 
             atletas.set(numAtleta,atleta);
 

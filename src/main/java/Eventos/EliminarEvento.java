@@ -1,3 +1,5 @@
+package Eventos;
+
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
 
@@ -17,7 +19,7 @@ public class EliminarEvento extends JFrame{
     private JButton voltarButton;
     private LinkedList<Evento> eventos;
     private DefaultListModel dlEventos;
-    private ArrayList<Integer> eventPos = new ArrayList<Integer>();
+    private ArrayList<Integer> eventPos = new ArrayList<>();
 
     public EliminarEvento() {
         super("Eliminar evento");
@@ -32,10 +34,6 @@ public class EliminarEvento extends JFrame{
         eliminarEventoButton.addActionListener(this::eliminarButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
         pack();
-    }
-
-    public static void main(String[] args) {
-        new CriarEvento().setVisible(true);
     }
 
     private void eliminarButtonActionPerformed(ActionEvent e) {

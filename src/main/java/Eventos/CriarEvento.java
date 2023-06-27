@@ -1,3 +1,5 @@
+package Eventos;
+
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
 import pt.ipleiria.estg.dei.ei.esoft.Pais;
@@ -31,10 +33,6 @@ public class CriarEvento extends JFrame{
         criarButton.addActionListener(this::criarButtonActionPerformed);
         cancelarButton.addActionListener(this::cancelarButtonActionPerformed);
         pack();
-    }
-
-    public static void main(String[] args) {
-        new CriarEvento().setVisible(true);
     }
 
     private void criarButtonActionPerformed(ActionEvent e) {

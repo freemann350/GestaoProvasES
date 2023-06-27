@@ -1,3 +1,5 @@
+package Eventos;
+
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
 import pt.ipleiria.estg.dei.ei.esoft.Pais;
@@ -6,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,11 +25,12 @@ public class EditarEvento extends JFrame{
     private JButton cancelarButton;
     private JPanel editarPanel;
     private LinkedList<Evento> eventos;
-
     private DefaultListModel dlEventos;
+    private ArrayList<Integer> eventPos = new ArrayList<>();
+
 
     public EditarEvento() {
-        super("Janela Principal");
+        super("Editar atletas");
         eventos = new LinkedList<>();
 
         readEvento();
@@ -51,7 +55,8 @@ public class EditarEvento extends JFrame{
         int numEvento = listEventos.getSelectedIndex();
 
         if (numEvento>=0) {
-            Evento evento = eventos.get(numEvento);
+            Evento evento = eventos.get(eventPos.get(numEvento)-1);
+
             evento.setNome(tfNome.getText());
             evento.setDataInicio(tfDataInicio.getText());
             evento.setDataFim(tfDataFim.getText());
@@ -59,9 +64,7 @@ public class EditarEvento extends JFrame{
             evento.setHora(tfHora.getText());
             evento.setLocal(tfLocal.getText());
 
-            System.out.println(evento);
-
-            eventos.set(numEvento,evento);
+            eventos.set(eventPos.get(numEvento)-1,evento);
 
             saveEvento();
 
@@ -78,20 +81,24 @@ public class EditarEvento extends JFrame{
 
     private void updateList() {
         dlEventos.removeAllElements();
+        eventPos.clear();
         listEventos.setModel(dlEventos);
 
+        int i=0;
         for (Evento evento : eventos) {
-            if (!evento.isEliminado())
+            i++;
+            if (!evento.isEliminado()) {
+                eventPos.add(i);
                 dlEventos.addElement(evento.getNome());
+            }
         }
-
     }
 
     private void eventoListSelectionEvent(ListSelectionEvent e) {
         int numEvento = listEventos.getSelectedIndex();
 
         if (numEvento>=0) {
-            Evento evento = eventos.get(numEvento);
+            Evento evento = eventos.get(eventPos.get(numEvento)-1);
             tfNome.setText(evento.getNome());
             cbPais.getModel().setSelectedItem(evento.getPais());
             tfDataInicio.setText(evento.getDataFim());

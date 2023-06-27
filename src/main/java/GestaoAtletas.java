@@ -1,3 +1,6 @@
+import Atletas.CriarAtleta;
+import Atletas.EditarAtleta;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -19,10 +22,6 @@ public class GestaoAtletas extends JFrame {
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
         criarAtletaButton.addActionListener(this::criarAtletaButtonActionPerformed);
         editarAtletaButton.addActionListener(this::editarAtletaButtonActionPerformed);
-    }
-
-    public static void main(String[] args) {
-        new GestaoAtletas().setVisible(true);
     }
 
     private void voltarButtonActionPerformed(ActionEvent e) {

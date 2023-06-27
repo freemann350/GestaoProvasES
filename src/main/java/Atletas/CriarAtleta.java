@@ -1,3 +1,5 @@
+package Atletas;
+
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.Pais;
@@ -33,9 +35,6 @@ public class CriarAtleta extends JFrame {
         pack();
     }
 
-    public static void main(String[] args) {
-        new CriarAtleta().setVisible(true);
-    }
     private void criarButtonActionPerformed(ActionEvent e) {
 
         Atleta atleta = new Atleta(

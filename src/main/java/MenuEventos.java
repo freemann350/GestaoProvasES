@@ -1,3 +1,10 @@
+import Eventos.CriarEvento;
+import Eventos.EditarEvento;
+import Eventos.EliminarEvento;
+import Provas.CriarProvaEventoSelecao;
+import Provas.EditarProvaEventoSelecao;
+import Provas.EliminarProvaEventoSelecao;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -23,11 +30,10 @@ public class MenuEventos extends JFrame{
         criarEventoButton.addActionListener(this::criarEventoButtonActionPerformed);
         editarEventoButton.addActionListener(this::editarEventoButtonActionPerformed);
         eliminarEventoButton.addActionListener(this::eliminarEventoButtonActionPerformed);
+        criarProvaButton.addActionListener(this::criarProvaButtonActionPerformed);
+        editarProvaButton.addActionListener(this::editarProvaButtonActionPerformed);
+        eliminarProvaButton.addActionListener(this::eliminarProvaButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
-    }
-
-    public static void main(String[] args) {
-        new GestaoAtletas().setVisible(true);
     }
 
     private void voltarButtonActionPerformed(ActionEvent e) {
@@ -48,5 +54,20 @@ public class MenuEventos extends JFrame{
     private void eliminarEventoButtonActionPerformed(ActionEvent e) {
         var EliminarEvento = new EliminarEvento();
         EliminarEvento.setVisible(true);
+    }
+
+    private void criarProvaButtonActionPerformed(ActionEvent e) {
+        var criarProva = new CriarProvaEventoSelecao();
+        criarProva.setVisible(true);
+    }
+
+    private void editarProvaButtonActionPerformed(ActionEvent e) {
+        var editarProva = new EditarProvaEventoSelecao();
+        editarProva.setVisible(true);
+    }
+
+    private void eliminarProvaButtonActionPerformed(ActionEvent e) {
+        var eliminarProva = new EliminarProvaEventoSelecao();
+        eliminarProva.setVisible(true);
     }
 }
