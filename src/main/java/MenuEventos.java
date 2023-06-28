@@ -12,9 +12,9 @@ public class MenuEventos extends JFrame{
     private JButton voltarButton;
     private JButton criarEventoButton;
     private JButton editarEventoButton;
+    private JButton eliminarEventoButton;
     private JButton criarProvaButton;
     private JButton editarProvaButton;
-    private JButton eliminarEventoButton;
     private JButton eliminarProvaButton;
     private JButton listarPaisesMaisMedalhadosButton;
     private JButton importarDadosDeProvaButton;
@@ -33,6 +33,9 @@ public class MenuEventos extends JFrame{
         criarProvaButton.addActionListener(this::criarProvaButtonActionPerformed);
         editarProvaButton.addActionListener(this::editarProvaButtonActionPerformed);
         eliminarProvaButton.addActionListener(this::eliminarProvaButtonActionPerformed);
+        gestãoDeEventosButton.addActionListener(this::gestaoDeEventosButtonActionPerformed);
+        importarDadosDeProvaButton.addActionListener(this::importarDadosDeProvaButtonActionPerformed);
+        listarPaisesMaisMedalhadosButton.addActionListener(this::listarPaisesMaisMedalhadosButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
     }
 
@@ -69,5 +72,14 @@ public class MenuEventos extends JFrame{
     private void eliminarProvaButtonActionPerformed(ActionEvent e) {
         var eliminarProva = new EliminarProvaEventoSelecao();
         eliminarProva.setVisible(true);
+    }
+    private void gestaoDeEventosButtonActionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(this,"In progress...");
+    }
+    private void importarDadosDeProvaButtonActionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(this,"In progress...");
+    }
+    private void listarPaisesMaisMedalhadosButtonActionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(this,"In progress...");
     }
 }
