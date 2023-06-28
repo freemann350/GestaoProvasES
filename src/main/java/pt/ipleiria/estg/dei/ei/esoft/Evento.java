@@ -20,6 +20,7 @@ public class Evento implements Serializable {
         this.hora = hora;
         this.pais = pais;
         this.local = local;
+        this.eliminado = false;
     }
 
     public String getNome() {

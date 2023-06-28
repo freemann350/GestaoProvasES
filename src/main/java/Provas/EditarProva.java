@@ -53,7 +53,7 @@ public class EditarProva extends JFrame {
             Prova prova = provas.get(provaPos.get(numEvento)-1);
 
             String name = "Prova " +  tfEscalaoPeso.getText() + "Kg " + cbFaixaEtaria.getSelectedItem().toString() +""+ (cbGenero.getSelectedItem().toString() == "MASCULINO" ? "(M)":"(F)");
-            prova.setNome(name);
+            prova.setNome();
             prova.setGenero(cbGenero.getSelectedItem().toString());
             prova.setEscalaoPeso(Integer.parseInt(tfEscalaoPeso.getText()));
             prova.setFaixaEtaria(cbFaixaEtaria.getSelectedItem().toString());
@@ -93,7 +93,6 @@ public class EditarProva extends JFrame {
         dlProvas.removeAllElements();
         provaPos.clear();
         listProvas.setModel(dlProvas);
-
 
         int i=0;
         for (Prova prova : provas) {

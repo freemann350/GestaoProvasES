@@ -7,7 +7,7 @@ public class Prova implements Serializable {
 
     private String nome;
     private Evento evento;
-    private String Genero;
+    private String genero;
     private int escalaoPeso;
     private String faixaEtaria;
     private int tapetes;
@@ -16,18 +16,19 @@ public class Prova implements Serializable {
     public Prova(String nome, Evento evento, String genero, int escalaoPeso, String faixaEtaria, int tapetes) {
         this.nome = nome;
         this.evento = evento;
-        Genero = genero;
+        this.genero = genero;
         this.escalaoPeso = escalaoPeso;
         this.faixaEtaria = faixaEtaria;
         this.tapetes = tapetes;
+        this.eliminado = false;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome() {
+        this.nome = "Prova " +  this.getEscalaoPeso() + "Kg " + this.getFaixaEtaria() +" "+ (this.getGenero() == "MASCULINO" ? "(M)":"(F)");
     }
 
     public Evento getEvento() {
@@ -39,11 +40,11 @@ public class Prova implements Serializable {
     }
 
     public String getGenero() {
-        return Genero;
+        return genero;
     }
 
     public void setGenero(String genero) {
-        Genero = genero;
+        this.genero = genero;
     }
 
     public int getEscalaoPeso() {
@@ -96,7 +97,7 @@ public class Prova implements Serializable {
         return "Prova{" +
                 "nome='" + nome + '\'' +
                 ", evento=" + evento +
-                ", Genero='" + Genero + '\'' +
+                ", Genero='" + genero + '\'' +
                 ", escalaoPeso=" + escalaoPeso +
                 ", faixaEtaria='" + faixaEtaria + '\'' +
                 ", tapetes=" + tapetes +
