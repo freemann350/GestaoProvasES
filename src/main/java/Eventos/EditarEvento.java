@@ -101,9 +101,9 @@ public class EditarEvento extends JFrame{
             Evento evento = eventos.get(eventPos.get(numEvento)-1);
             tfNome.setText(evento.getNome());
             cbPais.getModel().setSelectedItem(evento.getPais());
-            tfDataInicio.setText(evento.getDataFim());
+            tfDataInicio.setText(evento.getDataInicio());
             tfDataFim.setText(evento.getDataFim());
-            tfHora.setText(evento.getDataFim());
+            tfHora.setText(evento.getHora());
             tfLocal.setText(evento.getLocal());
             guardarButton.setEnabled(true);
         } else {
