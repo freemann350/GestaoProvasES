@@ -1,5 +1,3 @@
-package Provas;
-
 import pt.ipleiria.estg.dei.ei.esoft.*;
 
 import javax.swing.*;
@@ -24,9 +22,10 @@ public class EditarProva extends JFrame {
     private LinkedList<Prova> provas;
     private ArrayList<Integer> provaPos = new ArrayList<>();
     private DefaultListModel dlProvas;
+    private boolean escalaoValid=true,tapetesValid=true;
 
     public EditarProva(Evento evento) {
-        super("Editar atletas");
+        super("Editar provas");
         provas = new LinkedList<>();
         this.evento = evento;
 
@@ -34,7 +33,7 @@ public class EditarProva extends JFrame {
         dlProvas = new DefaultListModel();
         updateList();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(editarPanel);
         pack();
         loadComboBox();
@@ -50,28 +49,31 @@ public class EditarProva extends JFrame {
         int numEvento = listProvas.getSelectedIndex();
 
         if (numEvento>=0) {
-            Prova prova = provas.get(provaPos.get(numEvento)-1);
+            formValidation();
+            if (escalaoValid && tapetesValid) {
+                Prova prova = provas.get(provaPos.get(numEvento)-1);
 
-            String name = "Prova " +  tfEscalaoPeso.getText() + "Kg " + cbFaixaEtaria.getSelectedItem().toString() +""+ (cbGenero.getSelectedItem().toString() == "MASCULINO" ? "(M)":"(F)");
-            prova.setNome();
-            prova.setGenero(cbGenero.getSelectedItem().toString());
-            prova.setEscalaoPeso(Integer.parseInt(tfEscalaoPeso.getText()));
-            prova.setFaixaEtaria(cbFaixaEtaria.getSelectedItem().toString());
-            prova.setTapetes(Integer.parseInt(tfTapetes.getText()));
+                prova.setGenero(cbGenero.getSelectedItem().toString());
+                prova.setEscalaoPeso(Integer.parseInt(tfEscalaoPeso.getText()));
+                prova.setFaixaEtaria(cbFaixaEtaria.getSelectedItem().toString());
+                prova.setTapetes(Integer.parseInt(tfTapetes.getText()));
+                prova.setNome();
 
-            provas.set(provaPos.get(numEvento)-1,prova);
+                provas.set(provaPos.get(numEvento)-1,prova);
 
-            saveProva();
+                saveProva();
 
-            updateList();
-            listProvas.setSelectedIndex(numEvento);
-            JOptionPane.showMessageDialog(this,"Prova " + prova.getNome() + " editada com sucesso.");
+                updateList();
+                listProvas.setSelectedIndex(numEvento);
+                JOptionPane.showMessageDialog(this,"Prova " + prova.getNome() + " editada com sucesso.");
+            }
         }
     }
 
     private void cancelarButtonActionPerformed(ActionEvent e) {
         this.dispose();
         this.setVisible(false);
+        new MenuEventos().setVisible(true);
     }
 
     private void provaListSelectionEvent(ListSelectionEvent e) {
@@ -106,6 +108,43 @@ public class EditarProva extends JFrame {
     private void loadComboBox() {
         cbGenero.setModel(new DefaultComboBoxModel(Genero.values()));
         cbFaixaEtaria.setModel(new DefaultComboBoxModel(FaixaEtaria.values()));
+    }
+
+    private void formValidation() {
+        //ESCALAO VALIDATION
+        if (tfEscalaoPeso.getText().isEmpty()) {
+            escalaoValid = false;
+            JOptionPane.showMessageDialog(null,"O escalão de peso não pode ser vazio","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            escalaoValid = true;
+        }
+
+        try {
+            int d = Integer.parseInt(tfEscalaoPeso.getText());
+            escalaoValid = true;
+        } catch (NumberFormatException nfe) {
+            escalaoValid = false;
+            JOptionPane.showMessageDialog(null,"Escalão de peso inválido","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //TAPETES VALIDATION
+        if (tfTapetes.getText().isEmpty()) {
+            tapetesValid = false;
+            JOptionPane.showMessageDialog(null,"Os tapetes não podem ser vazios","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            tapetesValid = true;
+        }
+
+        try {
+            int d = Integer.parseInt(tfTapetes.getText());
+            tapetesValid = true;
+        } catch (NumberFormatException nfe) {
+            tapetesValid = false;
+            JOptionPane.showMessageDialog(null,"Tapetes inválidos","Erro",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void readProva() {

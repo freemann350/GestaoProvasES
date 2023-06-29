@@ -1,62 +1,67 @@
-package Provas;
-
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CriarProvaEventoSelecao extends JFrame {
+public class EliminarEvento extends JFrame{
+
     private JList listEventos;
-    private JButton criarProvaButton;
+    private JPanel eliminarPanel;
+    private JButton eliminarEventoButton;
     private JButton voltarButton;
-    private JPanel eventosPanel;
     private LinkedList<Evento> eventos;
     private DefaultListModel dlEventos;
     private ArrayList<Integer> eventPos = new ArrayList<>();
 
-    public CriarProvaEventoSelecao() {
-        super("Seleção de evento");
+    public EliminarEvento() {
+        super("Eliminar eventos");
         eventos = new LinkedList<>();
 
         readEvento();
         dlEventos = new DefaultListModel();
-
         updateList();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(eventosPanel);
-        criarProvaButton.addActionListener(this::criarProvaButtonActionPerformed);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(eliminarPanel);
+        eliminarEventoButton.addActionListener(this::eliminarButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
-        listEventos.setSelectedIndex(0);
         pack();
+        listEventos.setSelectedIndex(0);
     }
 
-    private void criarProvaButtonActionPerformed(ActionEvent e) {
+    private void eliminarButtonActionPerformed(ActionEvent e) {
         int numEvento = listEventos.getSelectedIndex();
 
         if (numEvento>=0) {
+            eliminarEventoButton.setEnabled(true);
             Evento evento = eventos.get(eventPos.get(numEvento)-1);
+            int opt = JOptionPane.showConfirmDialog(this,"Tem a certeza que quer eliminar o evento \"" + evento.getNome() +"\"?","Erro",JOptionPane.WARNING_MESSAGE);
 
-            var criarProva = new CriarProva(evento);
-            criarProva.setVisible(true);
+            if (opt == JOptionPane.YES_OPTION) {
+                evento.setEliminado(true);
+                saveEvento();
+                updateList();
+                JOptionPane.showMessageDialog(this, "Evento "+ evento.getNome() +" eliminado com sucesso.");
+            }
+
+        } else {
+            eliminarEventoButton.setEnabled(false);
         }
 
-        this.dispose();
-        this.setVisible(false);
+        if (eventPos.size() == 0) {
+            eliminarEventoButton.setEnabled(false);
+        }
     }
-
     private void voltarButtonActionPerformed(ActionEvent e) {
         this.dispose();
         this.setVisible(false);
+        new MenuEventos().setVisible(true);
     }
 
     private void updateList() {
@@ -91,6 +96,21 @@ public class CriarProvaEventoSelecao extends JFrame {
                 Logger.getLogger(Atleta.class.getName()).log(Level.SEVERE,
                         null, ex);
             }
+        }
+    }
+
+    private void saveEvento() {
+        ObjectOutputStream oos = null;
+
+        try {
+            File f = new
+                    File(System.getProperty("user.home")+File.separator+"eventos.dat");
+            oos = new ObjectOutputStream(new FileOutputStream(f));
+            oos.writeObject(eventos);
+            oos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Atleta.class.getName()).log(Level.SEVERE, null,
+                    ex);
         }
     }
 }

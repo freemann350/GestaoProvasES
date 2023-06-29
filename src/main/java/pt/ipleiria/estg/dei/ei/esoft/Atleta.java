@@ -9,11 +9,11 @@ public class Atleta implements Serializable {
         private String pais;
         private String genero;
         private String dataNascimento;
-        private float peso;
+        private int peso;
         private String contacto;
         private boolean eliminado;
 
-    public Atleta(String nome, String pais, String genero, String dataNascimento, float peso, String contacto) {
+    public Atleta(String nome, String pais, String genero, String dataNascimento, int peso, String contacto) {
             this.nome = nome;
             this.pais = pais;
             this.genero = genero;
@@ -70,11 +70,11 @@ public class Atleta implements Serializable {
             this.eliminado = eliminado;
         }
 
-        public float getPeso() {
+        public int getPeso() {
             return peso;
         }
 
-        public void setPeso(float peso) {
+        public void setPeso(int peso) {
             this.peso = peso;
         }
 

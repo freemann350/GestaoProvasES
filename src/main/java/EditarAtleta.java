@@ -1,5 +1,3 @@
-package Atletas;
-
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.Pais;
@@ -7,7 +5,13 @@ import pt.ipleiria.estg.dei.ei.esoft.Pais;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,9 +29,10 @@ public class EditarAtleta extends JFrame{
     private JButton cancelarButton;
     private LinkedList<Atleta> atletas;
     private DefaultListModel dlAtletas;
+    private boolean dateValid=true,pesoValid=true, contactoValid=true,nomeValid;
 
     public EditarAtleta() {
-        super("Janela Principal");
+        super("Editar atletas");
         atletas = new LinkedList<>();
 
         readAtleta();
@@ -36,7 +41,7 @@ public class EditarAtleta extends JFrame{
 
         updateList();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(editarPanel);
         pack();
         loadComboBox();
@@ -52,26 +57,32 @@ public class EditarAtleta extends JFrame{
         int numAtleta = listAtletas.getSelectedIndex();
 
         if (numAtleta>=0) {
-            Atleta atleta = atletas.get(numAtleta);
-            atleta.setNome(tfNome.getText());
-            atleta.setPais(cbPais.getSelectedItem().toString());
-            atleta.setGenero(cbGenero.getSelectedItem().toString());
-            atleta.setPeso(Float.parseFloat(tfPeso.getText()));
-            atleta.setDataNascimento(tfDataNascimento.getText());
-            atleta.setContacto(tfContacto.getText());
+            formValidation();
 
-            atletas.set(numAtleta,atleta);
+            if (nomeValid && dateValid && pesoValid && contactoValid) {
+                Atleta atleta = atletas.get(numAtleta);
+                atleta.setNome(tfNome.getText());
+                atleta.setPais(cbPais.getSelectedItem().toString());
+                atleta.setGenero(cbGenero.getSelectedItem().toString());
+                atleta.setPeso(Integer.parseInt(tfPeso.getText()));
+                atleta.setDataNascimento(tfDataNascimento.getText());
+                atleta.setContacto(tfContacto.getText());
 
-            saveAtleta();
+                atletas.set(numAtleta, atleta);
 
-            updateList();
-            listAtletas.setSelectedIndex(numAtleta);
-            JOptionPane.showMessageDialog(this,"Atleta " + atleta.getNome() + " editado com sucesso.");
+                saveAtleta();
+
+                updateList();
+                listAtletas.setSelectedIndex(numAtleta);
+                JOptionPane.showMessageDialog(this, "Atleta " + atleta.getNome() + " editado com sucesso.");
+            }
+
         }
     }
     private void cancelarButtonActionPerformed(ActionEvent e) {
         this.dispose();
         this.setVisible(false);
+        new MenuAtletas().setVisible(true);
     }
 
     private void updateList() {
@@ -137,6 +148,69 @@ public class EditarAtleta extends JFrame{
         } catch (IOException ex) {
             Logger.getLogger(Atleta.class.getName()).log(Level.SEVERE, null,
                     ex);
+        }
+    }
+
+    private void formValidation() {
+        //NOME VALIDATION
+        if (tfNome.getText().isEmpty()) {
+            nomeValid = false;
+            JOptionPane.showMessageDialog(null,"O nome não pode ser vazio","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            nomeValid = true;
+        }
+
+        //PESO VALIDATION
+        if (tfPeso.getText().isEmpty()) {
+            pesoValid = false;
+            JOptionPane.showMessageDialog(null,"O peso não pode ser vazio","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            pesoValid = true;
+        }
+
+        String text = tfPeso.getText();
+        try {
+            int d = Integer.parseInt(text);
+            pesoValid = true;
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null,"Peso inválido","Erro",JOptionPane.ERROR_MESSAGE);
+            pesoValid = false;
+            return;
+        }
+
+        //DATANASCIMENTO VALIDATION
+        if (tfDataNascimento.getText().isEmpty()) {
+            dateValid = false;
+            JOptionPane.showMessageDialog(null,"A data de nascimento não pode ser vazia","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            LocalDate.parse(tfDataNascimento.getText(),DateTimeFormatter.ofPattern("d-M-uuuu").withResolverStyle(ResolverStyle.STRICT));
+            dateValid = true;
+        } catch (DateTimeParseException s) {
+            dateValid = false;
+            JOptionPane.showMessageDialog(null, "A data de nascimento deve seguir o formato dd-mm-yyyy", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //CONTACTO VALIDATION
+        if (tfContacto.getText().isEmpty()) {
+            contactoValid = false;
+            JOptionPane.showMessageDialog(null,"O contacto não pode ser vazio","Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            contactoValid = true;
+        }
+
+        try {
+            int d = Integer.parseInt(tfContacto.getText());
+            contactoValid = true;
+        } catch (NumberFormatException nfe) {
+            contactoValid = false;
+            JOptionPane.showMessageDialog(null,"Contacto inválido","Erro",JOptionPane.ERROR_MESSAGE);
         }
     }
 }

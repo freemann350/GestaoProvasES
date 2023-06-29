@@ -7,8 +7,8 @@ public class MenuPrincipal extends JFrame {
     private JButton eventosCompetiçõesButton;
     private JButton atletasButton;
 
-    public MenuPrincipal(String title) {
-        super(title);
+    public MenuPrincipal() {
+        super("Menu Principal");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -19,7 +19,7 @@ public class MenuPrincipal extends JFrame {
     }
 
     public static void main(String[] args) {
-        new MenuPrincipal("Menu Principal").setVisible(true);
+        new MenuPrincipal().setVisible(true);
     }
 
 
@@ -28,12 +28,16 @@ public class MenuPrincipal extends JFrame {
     }
 
     private void atletasButtonActionPerformed(ActionEvent e) {
-        var gestaoAtleta = new GestaoAtletas();
+        var gestaoAtleta = new MenuAtletas();
         gestaoAtleta.setVisible(true);
+        this.dispose();
+        this.setVisible(false);
     }
 
     private void eventosCompetiçõesActionPerformed(ActionEvent e) {
         var menuEventos = new MenuEventos();
         menuEventos.setVisible(true);
+        this.dispose();
+        this.setVisible(false);
     }
 }

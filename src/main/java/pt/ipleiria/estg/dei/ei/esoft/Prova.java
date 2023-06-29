@@ -28,7 +28,15 @@ public class Prova implements Serializable {
     }
 
     public void setNome() {
-        this.nome = "Prova " +  this.getEscalaoPeso() + "Kg " + this.getFaixaEtaria() +" "+ (this.getGenero() == "MASCULINO" ? "(M)":"(F)");
+        String nomeGenero = null;
+        if (this.genero.equals("MASCULINO")) {
+            nomeGenero = "M";
+        } else {
+            nomeGenero = "F";
+        }
+
+        System.out.println(nomeGenero);
+        this.nome = "Prova " +  this.getEscalaoPeso() + "Kg " + this.getFaixaEtaria() +" "+ nomeGenero +"";
     }
 
     public Evento getEvento() {

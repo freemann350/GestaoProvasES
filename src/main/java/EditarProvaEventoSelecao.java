@@ -1,7 +1,6 @@
-package Provas;
-
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
+import pt.ipleiria.estg.dei.ei.esoft.Prova;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,16 +13,19 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class EliminarProvaEventoSelecao extends JFrame{
-    private JList listEventos;
+public class EditarProvaEventoSelecao extends JFrame{
+
     private JPanel eventosPanel;
-    private JButton eliminarProvasButton;
+    private JButton editarProvasButton;
     private JButton voltarButton;
+    private JList listEventos;
     private LinkedList<Evento> eventos;
+    private LinkedList<Prova> provas;
+
     private DefaultListModel dlEventos;
     private ArrayList<Integer> eventPos = new ArrayList<>();
 
-    public EliminarProvaEventoSelecao() {
+    public EditarProvaEventoSelecao() {
         super("Seleção de evento");
         eventos = new LinkedList<>();
 
@@ -32,9 +34,9 @@ public class EliminarProvaEventoSelecao extends JFrame{
 
         updateList();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(eventosPanel);
-        eliminarProvasButton.addActionListener(this::editarProvaButtonActionPerformed);
+        editarProvasButton.addActionListener(this::editarProvaButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
         listEventos.setSelectedIndex(0);
         pack();
@@ -46,16 +48,31 @@ public class EliminarProvaEventoSelecao extends JFrame{
         if (numEvento>=0) {
             Evento evento = eventos.get(eventPos.get(numEvento)-1);
 
-            var eliminarProva = new EliminarProva(evento);
-            eliminarProva.setVisible(true);
+            if (isProvasActive(evento)) {
+                var editarProva = new EditarProva(evento);
+                editarProva.setVisible(true);
+                this.dispose();
+                this.setVisible(false);
+            }
         }
 
-        this.dispose();
-        this.setVisible(false);
     }
     private void voltarButtonActionPerformed(ActionEvent e) {
         this.dispose();
         this.setVisible(false);
+        new MenuEventos().setVisible(true);
+    }
+
+    private boolean isProvasActive(Evento evento) {
+        readProva();
+
+        for (Prova prova : provas) {
+            if (!prova.getEvento().isEliminado() && prova.getEvento().equals(evento) && (!prova.isEliminado()))
+                return true;
+        }
+
+        JOptionPane.showMessageDialog(this, "Ainda não há provas criadas neste evento", "Erro", JOptionPane.ERROR_MESSAGE);
+        return false;
     }
 
     private void updateList() {
@@ -81,6 +98,25 @@ public class EliminarProvaEventoSelecao extends JFrame{
             try {
                 ois = new ObjectInputStream(new FileInputStream(f));
                 eventos = (LinkedList<Evento>) ois.readObject();
+                ois.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Atleta.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Atleta.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+        }
+    }
+    private void readProva() {
+        ObjectInputStream ois = null;
+        File f = new
+                File(System.getProperty("user.home")+ File.separator+"provas.dat");
+
+        if (f.canRead()) {
+            try {
+                ois = new ObjectInputStream(new FileInputStream(f));
+                provas = (LinkedList<Prova>) ois.readObject();
                 ois.close();
             } catch (IOException ex) {
                 Logger.getLogger(Atleta.class.getName()).log(Level.SEVERE,

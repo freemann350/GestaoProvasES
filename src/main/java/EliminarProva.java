@@ -1,5 +1,3 @@
-package Provas;
-
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
 import pt.ipleiria.estg.dei.ei.esoft.Prova;
@@ -31,11 +29,12 @@ public class EliminarProva extends JFrame {
         dlProvas = new DefaultListModel();
         updateList();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(eliminarPanel);
         eliminarProvaButton.addActionListener(this::eliminarButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
         pack();
+        listProvas.setSelectedIndex(0);
     }
 
     private void eliminarButtonActionPerformed(ActionEvent e) {
@@ -44,9 +43,14 @@ public class EliminarProva extends JFrame {
         if (numEvento>=0) {
             eliminarProvaButton.setEnabled(true);
             Prova prova = provas.get(provaPos.get(numEvento)-1);
-            prova.setEliminado(true);
-            saveProva();
-            updateList();
+            int opt = JOptionPane.showConfirmDialog(this,"Tem a certeza que quer eliminar a " + prova.getNome() +"?","Erro",JOptionPane.WARNING_MESSAGE);
+
+            if (opt == JOptionPane.YES_OPTION) {
+                prova.setEliminado(true);
+                saveProva();
+                updateList();
+                JOptionPane.showMessageDialog(this,"Prova eliminada com sucesso");
+            }
         } else {
             eliminarProvaButton.setEnabled(false);
         }
@@ -59,6 +63,7 @@ public class EliminarProva extends JFrame {
     private void voltarButtonActionPerformed(ActionEvent e) {
         this.dispose();
         this.setVisible(false);
+        new MenuEventos().setVisible(true);
     }
 
     private void updateList() {

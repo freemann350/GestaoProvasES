@@ -1,5 +1,3 @@
-package Provas;
-
 import pt.ipleiria.estg.dei.ei.esoft.Atleta;
 import pt.ipleiria.estg.dei.ei.esoft.Evento;
 
@@ -14,17 +12,16 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class EditarProvaEventoSelecao extends JFrame{
-
-    private JPanel eventosPanel;
-    private JButton editarProvasButton;
-    private JButton voltarButton;
+public class CriarProvaEventoSelecao extends JFrame {
     private JList listEventos;
+    private JButton criarProvaButton;
+    private JButton voltarButton;
+    private JPanel eventosPanel;
     private LinkedList<Evento> eventos;
     private DefaultListModel dlEventos;
     private ArrayList<Integer> eventPos = new ArrayList<>();
 
-    public EditarProvaEventoSelecao() {
+    public CriarProvaEventoSelecao() {
         super("Seleção de evento");
         eventos = new LinkedList<>();
 
@@ -33,32 +30,33 @@ public class EditarProvaEventoSelecao extends JFrame{
 
         updateList();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(eventosPanel);
-        editarProvasButton.addActionListener(this::editarProvaButtonActionPerformed);
+        criarProvaButton.addActionListener(this::criarProvaButtonActionPerformed);
         voltarButton.addActionListener(this::voltarButtonActionPerformed);
-        listEventos.setSelectedIndex(0);
         pack();
+        listEventos.setSelectedIndex(0);
     }
 
-    private void editarProvaButtonActionPerformed(ActionEvent e) {
+    private void criarProvaButtonActionPerformed(ActionEvent e) {
         int numEvento = listEventos.getSelectedIndex();
 
         if (numEvento>=0) {
             Evento evento = eventos.get(eventPos.get(numEvento)-1);
 
-            var editarProva = new EditarProva(evento);
-            editarProva.setVisible(true);
+            var criarProva = new CriarProva(evento);
+            criarProva.setVisible(true);
+            this.dispose();
+            this.setVisible(false);
         }
 
-        this.dispose();
-        this.setVisible(false);
     }
+
     private void voltarButtonActionPerformed(ActionEvent e) {
         this.dispose();
         this.setVisible(false);
+        new MenuEventos().setVisible(true);
     }
-
 
     private void updateList() {
         dlEventos.removeAllElements();
@@ -74,6 +72,7 @@ public class EditarProvaEventoSelecao extends JFrame{
             }
         }
     }
+
     private void readEvento() {
         ObjectInputStream ois = null;
         File f = new
@@ -93,4 +92,5 @@ public class EditarProvaEventoSelecao extends JFrame{
             }
         }
     }
+
 }
